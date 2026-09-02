@@ -1,10 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type { AppContext } from "../../src/context.ts";
 import { applyOp, type Json0Op } from "../../src/ot/apply.ts";
-import {
-  buildSectionObject,
-  findSectionByRef,
-} from "../../src/tools/shared.ts";
+import { buildSectionObject, findSectionByRef } from "../../src/tools/shared.ts";
 import { updateSection } from "../../src/tools/update-section.ts";
 import type { Section, TripPlan } from "../../src/types.ts";
 import { checklistTrip } from "../fixtures/checklist-trip.ts";
@@ -121,9 +118,7 @@ describe("applyOp – section li", () => {
     const doc = fresh(checklistTrip);
     const section = buildSectionObject("Day Trips");
     const insertIndex = doc.itinerary.sections.length;
-    const ops: Json0Op[] = [
-      { p: ["itinerary", "sections", insertIndex], li: section },
-    ];
+    const ops: Json0Op[] = [{ p: ["itinerary", "sections", insertIndex], li: section }];
     const next = applyOp(doc, ops);
     expect(next.itinerary.sections).toHaveLength(insertIndex + 1);
     const inserted = next.itinerary.sections[insertIndex]! as Section;
@@ -136,9 +131,7 @@ describe("applyOp – section li", () => {
   it("inserts a section at a mid-trip position", () => {
     const doc = fresh(checklistTrip);
     const section = buildSectionObject("Must-See");
-    const ops: Json0Op[] = [
-      { p: ["itinerary", "sections", 1], li: section },
-    ];
+    const ops: Json0Op[] = [{ p: ["itinerary", "sections", 1], li: section }];
     const next = applyOp(doc, ops);
     expect((next.itinerary.sections[1]! as Section).heading).toBe("Must-See");
     // Existing section at index 1 is shifted to index 2
@@ -207,9 +200,7 @@ describe("applyOp – section ld", () => {
     const sectionCount = doc.itinerary.sections.length;
     // Delete the section at index 0 ("Notes")
     const target = doc.itinerary.sections[0]!;
-    const ops: Json0Op[] = [
-      { p: ["itinerary", "sections", 0], ld: target },
-    ];
+    const ops: Json0Op[] = [{ p: ["itinerary", "sections", 0], ld: target }];
     const next = applyOp(doc, ops);
     expect(next.itinerary.sections).toHaveLength(sectionCount - 1);
     // Former index 1 ("Places to visit") is now at index 0
@@ -219,9 +210,7 @@ describe("applyOp – section ld", () => {
   it("throws when ld value does not match the existing section", () => {
     const doc = fresh(checklistTrip);
     const staleSection = { ...doc.itinerary.sections[0]!, heading: "Wrong heading" };
-    const ops: Json0Op[] = [
-      { p: ["itinerary", "sections", 0], ld: staleSection },
-    ];
+    const ops: Json0Op[] = [{ p: ["itinerary", "sections", 0], ld: staleSection }];
     expect(() => applyOp(doc, ops)).toThrow();
   });
 });

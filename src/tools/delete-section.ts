@@ -2,17 +2,10 @@ import { z } from "zod";
 import type { AppContext } from "../context.js";
 import { WanderlogError, WanderlogValidationError } from "../errors.js";
 import type { Json0Op } from "../ot/apply.js";
-import {
-  findPlacesToVisitSection,
-  findSectionByRef,
-  submitOp,
-} from "./shared.js";
+import { findPlacesToVisitSection, findSectionByRef, submitOp } from "./shared.js";
 
 export const deleteSectionInputSchema = {
-  trip_key: z
-    .string()
-    .min(1)
-    .describe("The trip to delete the section from."),
+  trip_key: z.string().min(1).describe("The trip to delete the section from."),
   section: z
     .string()
     .min(1)

@@ -2,17 +2,10 @@ import { z } from "zod";
 import type { AppContext } from "../context.js";
 import { WanderlogError, WanderlogValidationError } from "../errors.js";
 import type { Json0Op } from "../ot/apply.js";
-import {
-  findPlacesToVisitSection,
-  findSectionByRef,
-  submitOp,
-} from "./shared.js";
+import { findPlacesToVisitSection, findSectionByRef, submitOp } from "./shared.js";
 
 export const updateSectionInputSchema = {
-  trip_key: z
-    .string()
-    .min(1)
-    .describe("The trip containing the section to update."),
+  trip_key: z.string().min(1).describe("The trip containing the section to update."),
   section: z
     .string()
     .min(1)

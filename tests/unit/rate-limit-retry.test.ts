@@ -54,10 +54,7 @@ function makeFakeContext(failures: Array<Error | null>): {
 }
 
 const rateLimitError = () =>
-  new WanderlogError(
-    "Wanderlog rejected the request (4001): Too many requests",
-    "rate_limited",
-  );
+  new WanderlogError("Wanderlog rejected the request (4001): Too many requests", "rate_limited");
 
 describe("submitOp rate-limit retry", () => {
   beforeEach(() => {
@@ -96,9 +93,7 @@ describe("submitOp rate-limit retry", () => {
   });
 
   it("does not retry non-rate-limit errors", async () => {
-    const fake = makeFakeContext([
-      new WanderlogError("Submit op timeout", "submit_timeout"),
-    ]);
+    const fake = makeFakeContext([new WanderlogError("Submit op timeout", "submit_timeout")]);
     await expect(
       submitOp(fake.ctx, "tripA", (_entry, submit) => submit(ops)),
     ).rejects.toMatchObject({
@@ -152,7 +147,11 @@ describe("ShareDBClient bare {code, message} rejection frames", () => {
           connectResolve: () => void,
         ) => void;
       }
-    ).handleFrame(frame, setTimeout(() => {}, 60_000), () => {});
+    ).handleFrame(
+      frame,
+      setTimeout(() => {}, 60_000),
+      () => {},
+    );
   }
 
   it("maps code 4001 to a rate_limited error on pending ops", async () => {
